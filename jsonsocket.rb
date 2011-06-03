@@ -36,8 +36,8 @@ class JSONSocket
         @recvq.each do |line|
             line.chomp!
 
-            line.gsub! /[^[:print:]]/, "" # remove any characters that aren't
-                                          # printable.
+            # remove any non-printable characters.
+            line.gsub! /[^[:print:]]/, ""
 
             json = JSON.parse(line)
 
@@ -51,8 +51,13 @@ class JSONSocket
         raise NotImplementedError, "handle method not implemented", caller
     end
 
-    def poll
-        ret = IO.select([@socket])
+    def poll(readfds=nil, writefds=nil, timeout=nil)
+        readfds  = [] if readfds  == nil
+        writefds = [] if writefds == nil
+
+        readfds << @socket
+
+        ret = IO.select(readfds, writefds, nil, timeout)
 
         return unless ret
 
