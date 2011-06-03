@@ -13,7 +13,7 @@ class BitcoinCharts < JSONSocket
         # XXX - make this less ugly if possible
 
         printf Time.at(t.timestamp).strftime("[%F %T]")
-        printf " #{t.symbol.ljust(10)}"
+        printf " #{t.symbol.ljust(12)}"
 
         l, r = t.volume.split('.')
         r = r ? ".#{r.ljust(4)}" : " " * 5
