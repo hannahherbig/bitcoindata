@@ -51,13 +51,8 @@ class JSONSocket
         raise NotImplementedError, "handle method not implemented", caller
     end
 
-    def poll(readfds=nil, writefds=nil, timeout=nil)
-        readfds  = [] if readfds  == nil
-        writefds = [] if writefds == nil
-
-        readfds << @socket
-
-        ret = IO.select(readfds, writefds, nil, timeout)
+    def poll
+        ret = IO.select([@socket])
 
         return unless ret
 
